@@ -25,6 +25,7 @@ public class TravelPackageDTOMapper {
         return TravelPackageDTO.builder()
                 .id(travelPackage.getId())
                 .name(travelPackage.getName())
+                .passengerCapacity(travelPackage.getPassengerCapacity())
                 .destinationList(result)
                 .build();
     }

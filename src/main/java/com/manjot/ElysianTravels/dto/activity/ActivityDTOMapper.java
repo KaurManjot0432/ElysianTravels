@@ -20,4 +20,12 @@ public class ActivityDTOMapper {
                 .name(activityDTO.getName())
                 .build();
     }
+
+    public static ActivityDTO mapActivityToActivityPartialDTO(Activity activity) {
+        return ActivityDTO.builder()
+                .id(activity.getId())
+                .name(activity.getName())
+                .capacity(activity.getCapacity()-activity.getPassengerList().size())
+                .build();
+    }
 }
