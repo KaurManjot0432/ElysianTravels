@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,11 @@ public class DestinationServiceImpl implements DestinationService{
                 .orElseThrow(() -> new EntityNotFoundException("Travel Package not found with ID: " + travelPackageId));
 
         List<Destination> destinations = travelPackage.getDestinationList();
-
+        // Initialize the list if it's null
+        if (destinations == null) {
+            destinations = new ArrayList<>();
+            travelPackage.setDestinationList(destinations);
+        }
         destination.setTravelPackage(travelPackage);
         destinations.add(destination);
 

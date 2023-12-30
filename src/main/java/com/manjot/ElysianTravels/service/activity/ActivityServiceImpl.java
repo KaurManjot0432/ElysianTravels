@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,9 @@ public class ActivityServiceImpl implements ActivityService{
     @Override
     public boolean createActivity(Activity activity, Long destinationId){
         Destination destination = getDestinationById(destinationId);
+        if (destination.getActivityList() == null) {
+            destination.setActivityList(new ArrayList<>());
+        }
         activity.setDestination(destination);
         destination.getActivityList().add(activity);
 
@@ -54,12 +58,16 @@ public class ActivityServiceImpl implements ActivityService{
     @Override
     public boolean removeActivity(Long destinationId, Long activityId) {
         Destination destination = getDestinationById(destinationId);
-        Activity activity = getActivityById(activityId);
+        if (destination.getActivityList() != null) {
+            Activity activity = getActivityById(activityId);
 
-        destination.getActivityList().remove(activity);
-        destinationRepository.save(destination);
+            destination.getActivityList().remove(activity);
+            destinationRepository.save(destination);
 
-        return true;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
