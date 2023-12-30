@@ -1,12 +1,12 @@
 package com.manjot.ElysianTravels.controller;
 
-import com.manjot.ElysianTravels.dto.travelPackage.request.TravelPackageRequestDTO;
-import com.manjot.ElysianTravels.dto.travelPackage.response.TravelPackageResponseDTO;
-import com.manjot.ElysianTravels.dto.travelPackage.request.TravelPackageRequestDTOMapper;
-import com.manjot.ElysianTravels.dto.travelPackage.response.TravelPackageResponseDTOMapper;
-import com.manjot.ElysianTravels.service.travelPackage.TravelPackageService;
+import com.manjot.ElysianTravels.dto.destination.DestinationDTO;
+import com.manjot.ElysianTravels.dto.destination.DestinationDTOMapper;
+import com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTO;
+import com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTOMapper;
+import com.manjot.ElysianTravels.model.Destination;
 import com.manjot.ElysianTravels.model.TravelPackage;
-import jakarta.persistence.EntityNotFoundException;
+import com.manjot.ElysianTravels.service.travelPackage.TravelPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
+import static com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTOMapper.mapTravelPackageDTOToTravelPackage;
 
 /**
  * Controller class for managing travel packages.
@@ -39,44 +42,28 @@ public class TravelPackageController {
         this.travelPackageService = travelPackageService;
     }
 
-    /**
-     * Endpoint to create a new travel package.
-     *
-     * @param travelPackageRequestDTO The DTO containing details for creating a travel package.
-     * @return ResponseEntity with the created travel package or an error message.
-     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> createTravelPackage(@RequestBody TravelPackageRequestDTO travelPackageRequestDTO) {
-        try {
-            TravelPackage travelPackage = TravelPackageRequestDTOMapper.mapToTravelPackageRequestDTO(travelPackageRequestDTO);
-
-            TravelPackage response = travelPackageService.createTravelPackage(travelPackage);
-
-            TravelPackageResponseDTO responseDTO = TravelPackageResponseDTOMapper.mapToTravelPackageResponseDTO(response);
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
-        } catch(Exception e) {
+    public ResponseEntity<?> createTravelPackage(@RequestBody TravelPackageDTO travelPackageDTO) {
+        try{
+            TravelPackage travelPackage = mapTravelPackageDTOToTravelPackage(travelPackageDTO);
+            List<Destination> destinationList = travelPackageDTO.getDestinationList()
+                    .stream()
+                    .map(DestinationDTOMapper::mapDestinationDTOTODestination)
+                    .toList();
+            return ResponseEntity.ok(travelPackageService.createTravelPackage(travelPackage, destinationList));
+        } catch (Exception e) {
             return handleException(e);
         }
     }
 
-    /**
-     * Endpoint to retrieve a travel package by its ID.
-     *
-     * @param travelPackageId The ID of the travel package.
-     * @return ResponseEntity with the retrieved travel package or an error message.
-     */
-    @GetMapping("/{travelPackageId}")
+    @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> getTravelPackageById(@PathVariable Long travelPackageId) {
+    public ResponseEntity<?> getAllTravelPackages() {
         try {
-            TravelPackageResponseDTO responseDTO = TravelPackageResponseDTOMapper.mapToTravelPackageResponseDTO(
-                    travelPackageService.getTravelPackageById(travelPackageId)
-            );
-
-            return ResponseEntity.ok(responseDTO);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Travel Package not found");
+            List<TravelPackageDTO> travelPackageDTOS = travelPackageService.getAllTravelPackages()
+                    .stream().map(TravelPackageDTOMapper::mapToTravelPackageDTO).toList();
+            return ResponseEntity.ok(travelPackageDTOS);
         } catch (Exception e) {
             return handleException(e);
         }

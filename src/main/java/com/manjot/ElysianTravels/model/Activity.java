@@ -1,13 +1,17 @@
 package com.manjot.ElysianTravels.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
@@ -27,7 +31,10 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Builder
-@Table(name = "activities")
+@Table(name = "activities",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name")
+        })
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,11 +52,14 @@ public class Activity {
     @NotNull
     private int capacity;
 
-    @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "destination_id")
     private Destination destination;
 
-    @ManyToMany(mappedBy = "activities")
-    private List<User> passengers = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "passengers",
+            joinColumns = @JoinColumn(name = "activity_id"),
+            inverseJoinColumns = @JoinColumn(name = "passenger_id"))
+    private List<User> passengers;
 }

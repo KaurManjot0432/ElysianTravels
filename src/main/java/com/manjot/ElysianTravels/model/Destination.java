@@ -9,6 +9,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.FetchType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
@@ -17,7 +19,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.Builder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +29,10 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Builder
-@Table(name = "destinations")
+@Table(name = "destinations",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name")
+        })
 public class Destination {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +41,11 @@ public class Destination {
     @NotNull
     private String name;
 
-    @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "travel_package_id")
     private TravelPackage travelPackage;
 
-    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL)
-    private List<Activity> activities = new ArrayList<>();
+    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Activity> activityList;
 }
 

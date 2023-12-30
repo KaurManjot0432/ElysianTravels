@@ -1,19 +1,7 @@
 package com.manjot.ElysianTravels.model;
 
 import com.manjot.ElysianTravels.model.enums.PassengerType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -72,12 +60,8 @@ public class User {
     @JoinColumn(name = "travel_package_id")
     private TravelPackage travelPackage;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_activities",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "activity_id"))
-    private Set<Activity> activities = new HashSet<>();
+    @ManyToMany(mappedBy = "passengers", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Activity> activityList;
 
     public User(String username, String email, String password) {
         this.username = username;

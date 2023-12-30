@@ -1,10 +1,18 @@
 package com.manjot.ElysianTravels.service.travelPackage;
 
+import com.manjot.ElysianTravels.dto.destination.DestinationDTOMapper;
+import com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTO;
+import com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTOMapper;
+import com.manjot.ElysianTravels.model.Destination;
 import com.manjot.ElysianTravels.model.TravelPackage;
 import com.manjot.ElysianTravels.repository.TravelPackageRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTOMapper.mapTravelPackageDTOToTravelPackage;
 
 @Service
 public class TravelPackageServiceImpl implements TravelPackageService {
@@ -15,26 +23,14 @@ public class TravelPackageServiceImpl implements TravelPackageService {
         this.travelPackageRepository = travelPackageRepository;
     }
 
-    /**
-     * Creates a new travel package.
-     *
-     * @param travelPackage The travel package entity to be created.
-     * @return The created travel package.
-     */
     @Override
-    public TravelPackage createTravelPackage(TravelPackage travelPackage) {
+    public TravelPackage createTravelPackage(TravelPackage travelPackage, List<Destination> destinationList) {
+        destinationList.forEach(destination -> destination.setTravelPackage(travelPackage));
+        travelPackage.setDestinationList(destinationList);
         return travelPackageRepository.save(travelPackage);
     }
-
-    /**
-     * Retrieves a travel package by its unique identifier.
-     *
-     * @param travelPackageId The unique identifier of the travel package.
-     * @return The retrieved travel package.
-     */
     @Override
-    public TravelPackage getTravelPackageById(Long travelPackageId) {
-        return travelPackageRepository.findById(travelPackageId)
-                .orElseThrow(() -> new EntityNotFoundException("Travel package not found with ID: " + travelPackageId));
+    public List<TravelPackage> getAllTravelPackages() {
+        return travelPackageRepository.findAll().stream().toList();
     }
 }

@@ -1,12 +1,6 @@
 package com.manjot.ElysianTravels.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
@@ -26,7 +20,10 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Builder
-@Table(name = "travel_packages")
+@Table(name = "travel_packages",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name")
+        })
 public class TravelPackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,9 +35,9 @@ public class TravelPackage {
     @NotNull
     private int passengerCapacity;
 
-    @OneToMany(mappedBy = "travelPackage", cascade = CascadeType.ALL)
-    private List<Destination> destinations = new ArrayList<>();
+    @OneToMany(mappedBy = "travelPackage", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Destination> destinationList;
 
-    @OneToMany(mappedBy = "travelPackage", cascade = CascadeType.ALL)
-    private List<User> passengers = new ArrayList<>();
+    @OneToMany(mappedBy = "travelPackage", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<User> passengerList;
 }
