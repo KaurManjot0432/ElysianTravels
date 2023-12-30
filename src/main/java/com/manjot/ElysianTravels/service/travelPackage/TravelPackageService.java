@@ -11,5 +11,8 @@ import java.util.List;
 public interface TravelPackageService {
 
     public TravelPackage createTravelPackage(TravelPackage travelPackage, List<Destination> destinationList);
+
+    public TravelPackage getTravelPackageById(Long travelPackageId);
+
     public List<TravelPackage> getAllTravelPackages();
 }

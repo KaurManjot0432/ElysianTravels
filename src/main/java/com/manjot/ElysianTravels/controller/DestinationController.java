@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static com.manjot.ElysianTravels.dto.destination.DestinationDTOMapper.mapDestinationDTOTODestination;
@@ -29,6 +30,7 @@ public class DestinationController {
     }
 
     @PostMapping("/{travelPackageId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> addDestination(@PathVariable Long travelPackageId, @RequestBody DestinationDTO destinationDTO) {
         Destination destination = mapDestinationDTOTODestination(destinationDTO);
         return ResponseEntity.ok(destinationService.addDestination(travelPackageId, destination));

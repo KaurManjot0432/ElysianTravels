@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTOMapper.mapTravelPackageDTOToTravelPackage;
+import static com.manjot.ElysianTravels.utils.ErrorMessages.INVALID_TRAVEL_PACKAGE;
 
 @Service
 public class TravelPackageServiceImpl implements TravelPackageService {
@@ -28,6 +29,12 @@ public class TravelPackageServiceImpl implements TravelPackageService {
         destinationList.forEach(destination -> destination.setTravelPackage(travelPackage));
         travelPackage.setDestinationList(destinationList);
         return travelPackageRepository.save(travelPackage);
+    }
+
+    @Override
+    public TravelPackage getTravelPackageById(Long travelPackageId) {
+        return travelPackageRepository.findById(travelPackageId)
+                .orElseThrow(() -> new EntityNotFoundException(INVALID_TRAVEL_PACKAGE));
     }
     @Override
     public List<TravelPackage> getAllTravelPackages() {
