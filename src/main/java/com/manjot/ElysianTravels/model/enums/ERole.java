@@ -1,4 +1,4 @@
-package com.manjot.ElysianTravels.model;
+package com.manjot.ElysianTravels.model.enums;
 
 
 public enum ERole {

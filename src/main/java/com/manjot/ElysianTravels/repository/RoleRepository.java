@@ -1,6 +1,6 @@
 package com.manjot.ElysianTravels.repository;
 
-import com.manjot.ElysianTravels.model.ERole;
+import com.manjot.ElysianTravels.model.enums.ERole;
 import com.manjot.ElysianTravels.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

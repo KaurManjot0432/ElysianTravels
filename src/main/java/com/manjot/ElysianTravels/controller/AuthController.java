@@ -1,6 +1,7 @@
 package com.manjot.ElysianTravels.controller;
 
 import com.manjot.ElysianTravels.model.*;
+import com.manjot.ElysianTravels.model.enums.ERole;
 import com.manjot.ElysianTravels.payload.request.LoginRequest;
 import com.manjot.ElysianTravels.payload.request.SignupRequest;
 import com.manjot.ElysianTravels.payload.response.JwtResponse;
