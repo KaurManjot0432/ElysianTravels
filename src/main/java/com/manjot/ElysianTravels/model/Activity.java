@@ -61,5 +61,5 @@ public class Activity {
             name = "passengers",
             joinColumns = @JoinColumn(name = "activity_id"),
             inverseJoinColumns = @JoinColumn(name = "passenger_id"))
-    private List<User> passengers;
+    private List<User> passengerList;
 }

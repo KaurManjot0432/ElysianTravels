@@ -60,7 +60,7 @@ public class User {
     @JoinColumn(name = "travel_package_id")
     private TravelPackage travelPackage;
 
-    @ManyToMany(mappedBy = "passengers", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "passengerList", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Activity> activityList;
 
     public User(String username, String email, String password) {
