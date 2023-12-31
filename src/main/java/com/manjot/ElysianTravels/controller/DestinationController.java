@@ -29,6 +29,13 @@ public class DestinationController {
         this.destinationService = destinationService;
     }
 
+    /**
+     * Add a destination to a travel package.
+     *
+     * @param travelPackageId The ID of the travel package to which the destination is added.
+     * @param destinationDTO  The DTO containing details for creating a new destination.
+     * @return ResponseEntity with the created destination or an error message.
+     */
     @PostMapping("/{travelPackageId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addDestination(@PathVariable Long travelPackageId,

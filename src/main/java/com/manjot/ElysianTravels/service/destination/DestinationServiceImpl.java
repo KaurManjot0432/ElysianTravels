@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.manjot.ElysianTravels.dto.destination.DestinationDTOMapper.mapDestinationDTOTODestination;
+/**
+ * Service class for managing destinations.
+ */
 @Service
 public class DestinationServiceImpl implements DestinationService{
 
@@ -29,6 +32,13 @@ public class DestinationServiceImpl implements DestinationService{
         this.travelPackageRepository = travelPackageRepository;
     }
 
+    /**
+     * Add a destination to a travel package.
+     *
+     * @param travelPackageId The ID of the travel package to which the destination should be added.
+     * @param destination     The destination to be added.
+     * @return True if the destination is added successfully, false otherwise.
+     */
     @Override
     public boolean addDestination(Long travelPackageId, Destination destination) {
         TravelPackage travelPackage = travelPackageRepository.findById(travelPackageId)

@@ -15,6 +15,9 @@ import java.util.List;
 import static com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTOMapper.mapTravelPackageDTOToTravelPackage;
 import static com.manjot.ElysianTravels.utils.ErrorMessages.INVALID_TRAVEL_PACKAGE;
 
+/**
+ * Service class for managing travel packages.
+ */
 @Service
 public class TravelPackageServiceImpl implements TravelPackageService {
     private final TravelPackageRepository travelPackageRepository;
@@ -24,6 +27,13 @@ public class TravelPackageServiceImpl implements TravelPackageService {
         this.travelPackageRepository = travelPackageRepository;
     }
 
+    /**
+     * Create a new travel package with the provided details.
+     *
+     * @param travelPackage    The travel package entity to be created.
+     * @param destinationList  The list of destinations to be associated with the travel package.
+     * @return The created travel package entity.
+     */
     @Override
     public TravelPackage createTravelPackage(TravelPackage travelPackage, List<Destination> destinationList) {
         destinationList.forEach(destination -> destination.setTravelPackage(travelPackage));
@@ -31,11 +41,23 @@ public class TravelPackageServiceImpl implements TravelPackageService {
         return travelPackageRepository.save(travelPackage);
     }
 
+    /**
+     * Get a travel package by its ID.
+     *
+     * @param travelPackageId The ID of the travel package to be retrieved.
+     * @return The travel package entity.
+     */
     @Override
     public TravelPackage getTravelPackageById(Long travelPackageId) {
         return travelPackageRepository.findById(travelPackageId)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_TRAVEL_PACKAGE));
     }
+
+    /**
+     * Get a list of all travel packages.
+     *
+     * @return The list of all travel packages.
+     */
     @Override
     public List<TravelPackage> getAllTravelPackages() {
         return travelPackageRepository.findAll().stream().toList();

@@ -4,6 +4,9 @@ import com.manjot.ElysianTravels.model.Activity;
 
 import java.util.List;
 
+/**
+ * Service interface for managing activities.
+ */
 public interface ActivityService {
 
     public boolean createActivity(Activity activity, Long destinationId);

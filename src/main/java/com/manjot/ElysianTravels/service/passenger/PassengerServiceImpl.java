@@ -20,6 +20,9 @@ import static com.manjot.ElysianTravels.utils.ErrorMessages.INVALID_PASSENGER;
 import static com.manjot.ElysianTravels.utils.ErrorMessages.INVALID_TRAVEL_PACKAGE;
 import static com.manjot.ElysianTravels.utils.ValidationUtils.validateTravelPackageCapacity;
 
+/**
+ * Service class for managing passengers.
+ */
 @Service
 public class PassengerServiceImpl implements PassengerService{
 
@@ -35,6 +38,13 @@ public class PassengerServiceImpl implements PassengerService{
         this.travelPackageRepository = travelPackageRepository;
     }
 
+    /**
+     * Subscribe a user to a travel package.
+     *
+     * @param travelPackageId The ID of the travel package to which the user should be subscribed.
+     * @param passengerDTO    The passenger details for subscription.
+     * @return True if the user is subscribed successfully, false otherwise.
+     */
     @Override
     public boolean subscribeToTravelPackage(Long travelPackageId, PassengerDTO passengerDTO) {
         TravelPackage travelPackage = getTravelPackageById(travelPackageId);
@@ -55,12 +65,24 @@ public class PassengerServiceImpl implements PassengerService{
         return true;
     }
 
+    /**
+     * Get the list of passengers for a travel package.
+     *
+     * @param travelPackageId The ID of the travel package.
+     * @return The list of passengers.
+     */
     @Override
     public PassengerListDTO getPassengerList(Long travelPackageId) {
         TravelPackage travelPackage = getTravelPackageById(travelPackageId);
         return mapToPassengerListDTO(travelPackage);
     }
 
+    /**
+     * Get details of a specific passenger.
+     *
+     * @param passengerId The ID of the passenger.
+     * @return The details of the passenger.
+     */
     @Override
     public PassengerDTO getPassengerDetails(Long passengerId) {
         User passenger = userRepository.findById(passengerId)

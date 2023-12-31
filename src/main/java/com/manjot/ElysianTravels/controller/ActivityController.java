@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * Controller for managing activities.
+ */
 @RestController
 @RequestMapping("/api/activity")
 public class ActivityController {

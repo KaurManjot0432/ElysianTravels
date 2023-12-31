@@ -23,6 +23,9 @@ import static com.manjot.ElysianTravels.utils.ErrorMessages.INSUFFICIENT_BALANCE
 import static com.manjot.ElysianTravels.utils.ValidationUtils.validateActivityCapacity;
 import static com.manjot.ElysianTravels.utils.ValidationUtils.validateExistingParticipation;
 
+/**
+ * Service class for managing activities.
+ */
 @Service
 public class ActivityServiceImpl implements ActivityService{
     private final ActivityRepository activityRepository;
@@ -41,6 +44,13 @@ public class ActivityServiceImpl implements ActivityService{
         this.userRepository = userRepository;
     }
 
+    /**
+     * Create a new activity for a destination.
+     *
+     * @param activity     The activity to be created.
+     * @param destinationId The ID of the destination for which the activity is created.
+     * @return True if the activity is created successfully, false otherwise.
+     */
     @Override
     public boolean createActivity(Activity activity, Long destinationId){
         Destination destination = getDestinationById(destinationId);
@@ -54,7 +64,13 @@ public class ActivityServiceImpl implements ActivityService{
 
         return true;
     }
-
+    /**
+     * Remove an activity from a destination.
+     *
+     * @param destinationId The ID of the destination from which the activity should be removed.
+     * @param activityId    The ID of the activity to be removed.
+     * @return True if the activity is removed successfully, false otherwise.
+     */
     @Override
     public boolean removeActivity(Long destinationId, Long activityId) {
         Destination destination = getDestinationById(destinationId);
@@ -70,6 +86,13 @@ public class ActivityServiceImpl implements ActivityService{
         }
     }
 
+    /**
+     * Register a passenger for an activity.
+     *
+     * @param passengerId The ID of the passenger to be registered.
+     * @param activityId  The ID of the activity for which the passenger is registering.
+     * @return True if the passenger is registered successfully, false otherwise.
+     */
     @Override
     @Transactional
     public boolean registerForActivity(Long passengerId, Long activityId) {

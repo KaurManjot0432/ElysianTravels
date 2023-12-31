@@ -37,6 +37,12 @@ public class TravelPackageController {
         this.travelPackageService = travelPackageService;
     }
 
+    /**
+     * Create a new travel package.
+     *
+     * @param travelPackageDTO The DTO containing details for creating a new travel package.
+     * @return ResponseEntity with the created travel package or an error message.
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createTravelPackage(@RequestBody TravelPackageDTO travelPackageDTO) {
@@ -53,6 +59,11 @@ public class TravelPackageController {
         }
     }
 
+    /**
+     * Get details of all travel packages.
+     *
+     * @return ResponseEntity with a list of travel packages or an error message.
+     */
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllTravelPackages() {
@@ -65,6 +76,12 @@ public class TravelPackageController {
         }
     }
 
+    /**
+     * Get the itinerary for a specific travel package.
+     *
+     * @param travelPackageId The ID of the travel package for which the itinerary is requested.
+     * @return ResponseEntity with the travel package itinerary or an error message.
+     */
     @GetMapping("/listDestinations/{travelPackageId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> printItinerary(@PathVariable Long travelPackageId) {

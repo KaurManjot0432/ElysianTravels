@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller class for managing passengers.
+ */
 @RestController
 @RequestMapping("/api/passenger")
 public class PassengerController {
@@ -18,6 +21,13 @@ public class PassengerController {
     public PassengerController(PassengerService passengerService) {
         this.passengerService = passengerService;
     }
+
+    /**
+     * Get the list of passengers for a specific travel package.
+     *
+     * @param travelPackageId The ID of the travel package for which passenger list is requested.
+     * @return ResponseEntity with the passenger list or an error message.
+     */
     @GetMapping("/list/{travelPackageId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getPassengerList(@PathVariable Long travelPackageId) {
@@ -29,6 +39,12 @@ public class PassengerController {
         }
     }
 
+    /**
+     * Get details of a specific passenger.
+     *
+     * @param passengerId The ID of the passenger for which details are requested.
+     * @return ResponseEntity with the passenger details or an error message.
+     */
     @GetMapping("/{passengerId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getPassengerDetails(@PathVariable Long passengerId) {
@@ -40,6 +56,13 @@ public class PassengerController {
         }
     }
 
+    /**
+     * Subscribe a passenger to a specific travel package.
+     *
+     * @param travelPackageId The ID of the travel package to which the passenger is subscribing.
+     * @param passengerDTO    The DTO containing details for subscribing a passenger.
+     * @return ResponseEntity indicating the success or failure of the operation.
+     */
     @PostMapping("/subscribe/{travelPackageId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> subscribeToTravelPackage(
