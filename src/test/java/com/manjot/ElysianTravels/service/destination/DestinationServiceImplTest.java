@@ -36,7 +36,6 @@ class DestinationServiceImplTest {
 
     @Test
     void testAddDestination() {
-        // Arrange
         Long travelPackageId = 1L;
         TravelPackage travelPackage = new TravelPackage();
         travelPackage.setId(travelPackageId);
@@ -47,10 +46,8 @@ class DestinationServiceImplTest {
         when(travelPackageRepository.findById(travelPackageId)).thenReturn(Optional.of(travelPackage));
         when(travelPackageRepository.save(any(TravelPackage.class))).thenReturn(travelPackage);
 
-        // Act
         boolean result = destinationService.addDestination(travelPackageId, destination);
 
-        // Assert
         assertTrue(result);
         assertEquals(travelPackage, destination.getTravelPackage());
         verify(travelPackageRepository, times(1)).findById(travelPackageId);
@@ -59,14 +56,13 @@ class DestinationServiceImplTest {
 
     @Test
     void testAddDestinationTravelPackageNotFound() {
-        // Arrange
+
         Long travelPackageId = 1L;
         when(travelPackageRepository.findById(travelPackageId)).thenReturn(Optional.empty());
 
         Destination destination = new Destination();
         destination.setName("Test Destination");
 
-        // Act and Assert
         assertThrows(EntityNotFoundException.class,
                 () -> destinationService.addDestination(travelPackageId, destination));
         verify(travelPackageRepository, times(1)).findById(travelPackageId);

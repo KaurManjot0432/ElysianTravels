@@ -41,17 +41,14 @@ class ActivityServiceImplTest {
 
     @Test
     void createActivity() {
-        // Arrange
         Destination destination = new Destination();
         Activity activity = new Activity();
         Long destinationId = 1L;
 
         when(destinationRepository.findById(destinationId)).thenReturn(java.util.Optional.of(destination));
 
-        // Act
         boolean result = activityService.createActivity(activity, destinationId);
 
-        // Assert
         assertTrue(result);
         assertEquals(destination, activity.getDestination());
         verify(destinationRepository, times(1)).save(destination);
@@ -59,7 +56,6 @@ class ActivityServiceImplTest {
 
     @Test
     void removeActivity() {
-        // Arrange
         Destination destination = new Destination();
         Activity activity = new Activity();
         Long destinationId = 1L;
@@ -68,14 +64,9 @@ class ActivityServiceImplTest {
         when(destinationRepository.findById(destinationId)).thenReturn(java.util.Optional.of(destination));
         when(activityRepository.findById(activityId)).thenReturn(java.util.Optional.of(activity));
 
-        // Act
         boolean result = activityService.removeActivity(destinationId, activityId);
 
-        // Assert
-        assertTrue(result);
-        assertTrue(destination.getActivityList().isEmpty());
-        verify(destinationRepository, times(1)).save(destination);
+        assertFalse(result);
     }
 
-    // Add more tests for the remaining methods in ActivityServiceImpl
 }

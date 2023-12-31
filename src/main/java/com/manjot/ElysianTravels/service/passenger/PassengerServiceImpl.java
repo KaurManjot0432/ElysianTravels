@@ -13,6 +13,8 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 import static com.manjot.ElysianTravels.dto.passenger.PassengerDTOMapper.*;
 import static com.manjot.ElysianTravels.utils.ErrorMessages.INVALID_PASSENGER;
 import static com.manjot.ElysianTravels.utils.ErrorMessages.INVALID_TRAVEL_PACKAGE;
@@ -36,7 +38,10 @@ public class PassengerServiceImpl implements PassengerService{
     @Override
     public boolean subscribeToTravelPackage(Long travelPackageId, PassengerDTO passengerDTO) {
         TravelPackage travelPackage = getTravelPackageById(travelPackageId);
-
+        // Ensure that the PassengerList is initialized before checking its size
+        if (travelPackage.getPassengerList() == null) {
+            travelPackage.setPassengerList(new ArrayList<>());
+        }
         validateTravelPackageCapacity(travelPackage);
 
         User passenger = getUserById(passengerDTO.getId());
