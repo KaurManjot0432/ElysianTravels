@@ -1,5 +1,61 @@
 # Project : Elysian Travels
 
+## Overview
+Elysian Travels is a dynamic travel management system empowering travel agencies to
+organize travel packages, itineraries, and passenger registrations with ease.
+## Functional Requirements
+#### Travel Packages:
+
+- Each package has a name, passenger capacity, destinations, and a passenger roster.
+- Destinations include a name and a list of activities.
+#### Activities:
+
+- Each activity has a name, description, cost, and capacity.
+- Activities are associated with specific destinations.
+#### Passenger Registration:
+
+- Passengers sign up for activities within a travel package.
+- Activity capacities are enforced.
+#### Passenger Types:
+
+- Standard passengers have a balance deducted for each activity.
+- Gold passengers enjoy a 10% discount.
+- Premium passengers register for activities for free.
+#### Itinerary Printing:
+
+- Print the itinerary for a travel package, showcasing package name, destinations, and activity details.
+#### Passenger List Printing:
+
+- Print the passenger list, including package name, capacity, and details of each enrolled passenger.
+#### Passenger Details Printing:
+
+- Print details of an individual passenger, including name, number, balance, and signed-up activities.
+#### Available Activities Printing:
+
+- Print details of activities with available spaces.
+## Enhanced Features
+#### Security:
+
+- JWT authentication ensures secure endpoints.
+- Role-based access control (admin/user roles) is implemented.
+- User Role : sign up for packages, subscribe to activities, and view their details.
+- Admin Role : Admins perform all user actions, create packages, add destinations, and view passenger lists.
+#### Exception Handling:
+
+- Robust exception handling for graceful error management.
+#### Unit Testing:
+
+- Comprehensive JUnit tests for each class and method.
+#### Documentation:
+
+- Thorough Java code documentation for clarity.
+## High Level Design
+![Alt text](HLDET.drawio.svg "Optional Title")
+
+## Low Level Design
+![Alt text](ClassDiagramET.drawio.svg "Optional Title")
+
+
 ## API Documentation
 
 ### Signup
