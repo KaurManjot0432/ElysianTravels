@@ -1,4 +1,4 @@
-package com.manjot.ElysianTravels.payload.response;
+package com.manjot.ElysianTravels.dto.auth.response;
 
 import java.util.List;
 

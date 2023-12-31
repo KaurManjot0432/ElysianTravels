@@ -2,6 +2,7 @@ package com.manjot.ElysianTravels.dto.passenger;
 
 import com.manjot.ElysianTravels.dto.activity.ActivityDTO;
 import com.manjot.ElysianTravels.model.enums.PassengerType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -14,16 +15,17 @@ import java.util.List;
 @ToString
 @Builder
 public class PassengerDTO {
+    @NotBlank
     private Long id;
 
-    String name;
-    String email;
-    String password;
+    private String passengerName;
 
-    Long passengerNumber;
+    private Long passengerNumber;
 
-    PassengerType type;
+    @NotBlank
+    private PassengerType passengerType;
 
+    @NotBlank
     double balance;
 
     @Builder.Default

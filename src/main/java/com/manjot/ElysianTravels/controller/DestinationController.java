@@ -31,14 +31,25 @@ public class DestinationController {
 
     @PostMapping("/{travelPackageId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Boolean> addDestination(@PathVariable Long travelPackageId, @RequestBody DestinationDTO destinationDTO) {
-        Destination destination = mapDestinationDTOTODestination(destinationDTO);
-        return ResponseEntity.ok(destinationService.addDestination(travelPackageId, destination));
+    public ResponseEntity<?> addDestination(@PathVariable Long travelPackageId,
+                                            @RequestBody DestinationDTO destinationDTO
+    ) {
+        try {
+            Destination destination = mapDestinationDTOTODestination(destinationDTO);
+            boolean result = destinationService.addDestination(travelPackageId, destination);
+            if (result) {
+                return ResponseEntity.status(HttpStatus.CREATED).body("Destination created successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create destination");
+            }
+        } catch (Exception e) {
+            return handleException(e);
+        }
     }
 
     private ResponseEntity<?> handleException(Exception e) {
         logger.error("Error occurred while processing request", e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Some Error occurred while processing your request");
+                .body("Some Error occurred while processing your request " + e);
     }
 }

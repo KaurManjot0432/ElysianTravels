@@ -1,6 +1,5 @@
 package com.manjot.ElysianTravels.controller;
 
-import com.manjot.ElysianTravels.dto.destination.DestinationDTO;
 import com.manjot.ElysianTravels.dto.destination.DestinationDTOMapper;
 import com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTO;
 import com.manjot.ElysianTravels.dto.travelPackage.TravelPackageDTOMapper;
@@ -47,7 +46,8 @@ public class TravelPackageController {
                     .stream()
                     .map(DestinationDTOMapper::mapDestinationDTOTODestination)
                     .toList();
-            return ResponseEntity.ok(travelPackageService.createTravelPackage(travelPackage, destinationList));
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(travelPackageService.createTravelPackage(travelPackage, destinationList));
         } catch (Exception e) {
             return handleException(e);
         }
@@ -79,7 +79,7 @@ public class TravelPackageController {
     private ResponseEntity<?> handleException(Exception e) {
         logger.error("Error occurred while processing request", e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Some Error occurred while processing your request");
+                .body("Some Error occurred while processing your request " + e);
     }
 
 }

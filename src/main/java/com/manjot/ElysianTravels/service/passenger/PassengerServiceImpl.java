@@ -8,6 +8,8 @@ import com.manjot.ElysianTravels.model.User;
 import com.manjot.ElysianTravels.repository.TravelPackageRepository;
 import com.manjot.ElysianTravels.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,9 @@ public class PassengerServiceImpl implements PassengerService{
 
         validateTravelPackageCapacity(travelPackage);
 
-        User passenger = mapPassengerInfoToPassenger(passengerDTO);
+        User passenger = getUserById(passengerDTO.getId());
+        passenger.setPassengerType(passengerDTO.getPassengerType());
+        passenger.setBalance(passengerDTO.getBalance());
         passenger.setTravelPackage(travelPackage);
         userRepository.save(passenger);
         travelPackage.getPassengerList().add(passenger);
@@ -59,6 +63,10 @@ public class PassengerServiceImpl implements PassengerService{
         return mapPassengerToPassengerInfo(passenger);
     }
 
+    private User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(INVALID_PASSENGER));
+    }
     private TravelPackage getTravelPackageById(Long travelPackageId) {
         return travelPackageRepository.findById(travelPackageId)
                 .orElseThrow(() -> new EntityNotFoundException(INVALID_TRAVEL_PACKAGE));

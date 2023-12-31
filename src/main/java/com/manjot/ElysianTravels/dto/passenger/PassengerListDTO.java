@@ -12,12 +12,12 @@ import java.util.List;
 @ToString
 public class PassengerListDTO {
 
-    String travelPackageName;
+    private String travelPackageName;
 
-    int passengerCapacity;
+    private int passengerCapacity;
 
-    int passengerCount;
+    private int passengerCount;
 
-    List<PassengerDTO> passengers;
+    private List<PassengerDTO> passengers;
 
 }

@@ -12,20 +12,13 @@ import static com.manjot.ElysianTravels.model.enums.PassengerType.STANDARD;
 import static com.manjot.ElysianTravels.model.enums.PassengerType.PREMIUM;
 
 public class PassengerDTOMapper {
-    public static PassengerListDTO mapToPassengerListDTO(TravelPackage travelPackage) {
-        List<PassengerDTO> passengerInfos = travelPackage.getPassengerList().stream().map(passenger ->
-                PassengerDTO.builder()
-                        .id(passenger.getId())
-                        .type(passenger.getPassengerType())
-                        .passengerNumber(passenger.getId())
-                        .name(passenger.getUsername())
-                        .build()
-        ).toList();
-        return PassengerListDTO.builder()
-                .travelPackageName(travelPackage.getName())
-                .passengerCapacity(travelPackage.getPassengerCapacity())
-                .passengerCount(travelPackage.getPassengerList().size())
-                .passengers(passengerInfos).build();
+
+    public static User mapPassengerInfoToPassenger(PassengerDTO passengerDTO) {
+        return User.builder()
+                .passengerType(passengerDTO.getPassengerType())
+                .id(passengerDTO.getId())
+                .balance(passengerDTO.getBalance())
+                .build();
     }
 
     public static PassengerDTO mapPassengerToPassengerInfo(User passenger) {
@@ -43,22 +36,28 @@ public class PassengerDTOMapper {
         ).toList();
         return PassengerDTO.builder()
                 .id(passenger.getId())
-                .name(passenger.getUsername())
-                .type(passenger.getPassengerType())
+                .passengerName(passenger.getUsername())
+                .passengerType(passenger.getPassengerType())
                 .passengerNumber(passenger.getId())
                 .balance(passenger.getPassengerType() != PassengerType.PREMIUM ? passenger.getBalance() : -1)
                 .activities(activityDTOS)
                 .build();
     }
 
-    public static User mapPassengerInfoToPassenger(PassengerDTO passengerInfo) {
-        return User.builder()
-                .username(passengerInfo.getName())
-                .email(passengerInfo.getEmail())
-                .password(passengerInfo.getPassword())
-                .passengerType(passengerInfo.getType())
-                .id(passengerInfo.getPassengerNumber())
-                .balance(passengerInfo.getBalance())
-                .build();
+    public static PassengerListDTO mapToPassengerListDTO(TravelPackage travelPackage) {
+        List<PassengerDTO> passengerDTOList = travelPackage.getPassengerList().stream().map(passenger ->
+                PassengerDTO.builder()
+                        .id(passenger.getId())
+                        .passengerType(passenger.getPassengerType())
+                        .passengerNumber(passenger.getId())
+                        .passengerName(passenger.getUsername())
+                        .build()
+        ).toList();
+        return PassengerListDTO.builder()
+                .travelPackageName(travelPackage.getName())
+                .passengerCapacity(travelPackage.getPassengerCapacity())
+                .passengerCount(travelPackage.getPassengerList().size())
+                .passengers(passengerDTOList).build();
     }
+
 }

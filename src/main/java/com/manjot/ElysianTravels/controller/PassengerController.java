@@ -19,7 +19,7 @@ public class PassengerController {
         this.passengerService = passengerService;
     }
     @GetMapping("/list/{travelPackageId}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getPassengerList(@PathVariable Long travelPackageId) {
         try {
             PassengerListDTO passengerListDTO = passengerService.getPassengerList(travelPackageId);
@@ -47,7 +47,11 @@ public class PassengerController {
             @RequestBody PassengerDTO passengerDTO) {
         try {
             boolean result = passengerService.subscribeToTravelPackage(travelPackageId, passengerDTO);
-            return ResponseEntity.ok(result);
+            if (result) {
+                return ResponseEntity.ok("Passenger registered for Travel Package successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to register passenger for Travel Package");
+            }
         } catch (Exception e) {
             return handleException(e);
         }

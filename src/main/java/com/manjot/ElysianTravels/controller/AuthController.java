@@ -2,10 +2,10 @@ package com.manjot.ElysianTravels.controller;
 
 import com.manjot.ElysianTravels.model.*;
 import com.manjot.ElysianTravels.model.enums.ERole;
-import com.manjot.ElysianTravels.payload.request.LoginRequest;
-import com.manjot.ElysianTravels.payload.request.SignupRequest;
-import com.manjot.ElysianTravels.payload.response.JwtResponse;
-import com.manjot.ElysianTravels.payload.response.MessageResponse;
+import com.manjot.ElysianTravels.dto.auth.request.LoginRequest;
+import com.manjot.ElysianTravels.dto.auth.request.SignupRequest;
+import com.manjot.ElysianTravels.dto.auth.response.JwtResponse;
+import com.manjot.ElysianTravels.dto.auth.response.MessageResponse;
 import com.manjot.ElysianTravels.repository.*;
 import com.manjot.ElysianTravels.security.jwt.JwtUtils;
 import com.manjot.ElysianTravels.security.services.UserDetailsImpl;

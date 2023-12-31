@@ -4,7 +4,6 @@ import com.manjot.ElysianTravels.model.Activity;
 import com.manjot.ElysianTravels.service.activity.ActivityService;
 import com.manjot.ElysianTravels.dto.activity.ActivityDTO;
 import com.manjot.ElysianTravels.dto.activity.ActivityDTOMapper;
-import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,6 +126,6 @@ public class ActivityController {
     private ResponseEntity<?> handleException(Exception e) {
         logger.error("Error occurred while processing request", e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Some Error occurred while processing your request");
+                .body("Some Error occurred while processing your request " + e);
     }
 }
