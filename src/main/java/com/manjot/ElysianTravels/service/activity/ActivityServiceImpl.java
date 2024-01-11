@@ -99,7 +99,7 @@ public class ActivityServiceImpl implements ActivityService{
         Activity activity = getActivityById(activityId);
 
         //perform validations
-        validateActivityBelongToPassengerSubscribedTravelPackage(activity, passenger);
+        validatePassengerSubscribedToActivityTravelPackage(activity, passenger);
         validateActivityCapacity(activity);
         validateExistingParticipation(activity, passenger);
 

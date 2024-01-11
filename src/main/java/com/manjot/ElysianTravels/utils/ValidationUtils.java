@@ -28,7 +28,12 @@ public class ValidationUtils {
         }
     }
 
-    public static void validateActivityBelongToPassengerSubscribedTravelPackage(Activity activity, User passenger) {
+    /**
+     * Ensures that the passenger joining the activity has subscribed to the travel package that includes this activity
+     * @param activity The activity passenger wants to join
+     * @param passenger  passenger who is joining activity
+     */
+    public static void validatePassengerSubscribedToActivityTravelPackage(Activity activity, User passenger) {
         Destination activityDestination = activity.getDestination();
         TravelPackage destinationTravelPackage = activityDestination.getTravelPackage();
 
