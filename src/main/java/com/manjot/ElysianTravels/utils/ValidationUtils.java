@@ -28,6 +28,16 @@ public class ValidationUtils {
         }
     }
 
+    public static void validateActivityBelongToPassengerSubscribedTravelPackage(Activity activity, User passenger) {
+        Destination activityDestination = activity.getDestination();
+        TravelPackage destinationTravelPackage = activityDestination.getTravelPackage();
+
+        // Check if the user has subscribed to the travel package of the destination
+        if (passenger.getTravelPackage() == null || !passenger.getTravelPackage().equals(destinationTravelPackage)) {
+            throw new IllegalArgumentException("User is not subscribed to the travel package of the destination.");
+        }
+    }
+
     /**
      * Checks if a destination name already exists in the list of destinations.
      *

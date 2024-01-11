@@ -8,7 +8,7 @@ public class ActivityDTOMapper {
                 .id(activity.getId())
                 .name(activity.getName())
                 .description(activity.getDescription())
-                .capacity(activity.getCapacity())
+                .capacity(activity.getCapacity() - activity.getPassengerList().size())
                 .cost(activity.getCost())
                 .build();
     }

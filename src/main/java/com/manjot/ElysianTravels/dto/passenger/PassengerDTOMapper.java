@@ -51,6 +51,7 @@ public class PassengerDTOMapper {
                         .passengerType(passenger.getPassengerType())
                         .passengerNumber(passenger.getId())
                         .passengerName(passenger.getUsername())
+                        .balance(passenger.getBalance())
                         .build()
         ).toList();
         return PassengerListDTO.builder()

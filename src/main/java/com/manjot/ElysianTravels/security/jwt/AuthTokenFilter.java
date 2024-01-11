@@ -48,7 +48,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
         }
-
+        // allow the HttpRequest to go to Spring's DispatcherServlet
+        // and @RestControllers/@Controllers.
         filterChain.doFilter(request, response);
     }
 

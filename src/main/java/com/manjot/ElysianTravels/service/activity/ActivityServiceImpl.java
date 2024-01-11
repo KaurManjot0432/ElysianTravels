@@ -20,8 +20,7 @@ import java.util.stream.Collectors;
 import static com.manjot.ElysianTravels.model.enums.PassengerType.GOLD;
 import static com.manjot.ElysianTravels.model.enums.PassengerType.PREMIUM;
 import static com.manjot.ElysianTravels.utils.ErrorMessages.INSUFFICIENT_BALANCE;
-import static com.manjot.ElysianTravels.utils.ValidationUtils.validateActivityCapacity;
-import static com.manjot.ElysianTravels.utils.ValidationUtils.validateExistingParticipation;
+import static com.manjot.ElysianTravels.utils.ValidationUtils.*;
 
 /**
  * Service class for managing activities.
@@ -99,8 +98,10 @@ public class ActivityServiceImpl implements ActivityService{
         User passenger = getUserById(passengerId);
         Activity activity = getActivityById(activityId);
 
-        validateExistingParticipation(activity, passenger);
+        //perform validations
+        validateActivityBelongToPassengerSubscribedTravelPackage(activity, passenger);
         validateActivityCapacity(activity);
+        validateExistingParticipation(activity, passenger);
 
         double costToPay = calculateCostToPay(passenger, activity);
 

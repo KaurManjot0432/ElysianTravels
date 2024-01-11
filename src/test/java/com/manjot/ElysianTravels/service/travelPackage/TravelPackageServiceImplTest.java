@@ -31,7 +31,6 @@ public class TravelPackageServiceImplTest {
 
     @Before
     public void setUp() {
-        // Additional setup if needed
     }
 
     @Test
